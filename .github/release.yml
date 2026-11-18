@@ -96,8 +96,8 @@ jobs:
           AAB=$(find app/build/outputs/bundle/release/ -name "*.aab" | head -n 1)
 
           if [ -n "$DEBUG_APK" ]; then
-            cp "$DEBUG_APK" release_out/GothwadTVBrowser-v${V_NAME}-Debug.apk
-            echo "Copied Debug APK: release_out/GothwadTVBrowser-v${V_NAME}-Debug.apk"
+            cp "$DEBUG_APK" release_out/BansifyInternet-v${V_NAME}-Debug.apk
+            echo "Copied Debug APK: release_out/BansifyInternet-v${V_NAME}-Debug.apk"
           fi
 
           # Store keystore in secure temporary location outside release outputs
@@ -141,16 +141,16 @@ jobs:
               --ks-key-alias "$ACTUAL_ALIAS" \
               --ks-pass "pass:$KEYSTORE_PASS" \
               --key-pass "pass:$KEY_PASS" \
-              --out release_out/GothwadTVBrowser-v${V_NAME}-Release.apk \
+              --out release_out/BansifyInternet-v${V_NAME}-Release.apk \
               "$APK"
           fi
 
           if [ -n "$AAB" ]; then
-            cp "$AAB" release_out/GothwadTVBrowser-v${V_NAME}-PlayStore.aab
+            cp "$AAB" release_out/BansifyInternet-v${V_NAME}-PlayStore.aab
             jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
               -keystore "$KS_PATH" \
               -storepass "$KEYSTORE_PASS" -keypass "$KEY_PASS" \
-              release_out/GothwadTVBrowser-v${V_NAME}-PlayStore.aab \
+              release_out/BansifyInternet-v${V_NAME}-PlayStore.aab \
               "$ACTUAL_ALIAS"
           fi
 
@@ -161,9 +161,9 @@ jobs:
       - name: Build Linux Packages (.deb & .tar.gz)
         run: |
           chmod +x packaging/linux/build-linux-packages.sh
-          RELEASE_APK="release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-Release.apk"
+          RELEASE_APK="release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-Release.apk"
           if [ ! -f "$RELEASE_APK" ]; then
-            RELEASE_APK="release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-Debug.apk"
+            RELEASE_APK="release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-Debug.apk"
           fi
           ./packaging/linux/build-linux-packages.sh \
             "$RELEASE_APK" \
@@ -173,9 +173,9 @@ jobs:
       - name: Build Windows Package (.zip)
         run: |
           chmod +x packaging/windows/build-windows-package.sh
-          RELEASE_APK="release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-Release.apk"
+          RELEASE_APK="release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-Release.apk"
           if [ ! -f "$RELEASE_APK" ]; then
-            RELEASE_APK="release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-Debug.apk"
+            RELEASE_APK="release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-Debug.apk"
           fi
           ./packaging/windows/build-windows-package.sh \
             "$RELEASE_APK" \
@@ -185,9 +185,9 @@ jobs:
       - name: Build macOS Package (.app in .zip)
         run: |
           chmod +x packaging/macos/build-macos-package.sh
-          RELEASE_APK="release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-Release.apk"
+          RELEASE_APK="release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-Release.apk"
           if [ ! -f "$RELEASE_APK" ]; then
-            RELEASE_APK="release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-Debug.apk"
+            RELEASE_APK="release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-Debug.apk"
           fi
           ./packaging/macos/build-macos-package.sh \
             "$RELEASE_APK" \
@@ -205,10 +205,10 @@ jobs:
           prerelease: false
           generate_release_notes: true
           files: |
-            release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-Release.apk
-            release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-Debug.apk
-            release_out/GothwadTVBrowser-v${{ steps.versioning.outputs.v_name }}-PlayStore.aab
-            release_out/gothwad-browser_${{ steps.versioning.outputs.v_name }}_all.deb
-            release_out/gothwad-browser-linux-v${{ steps.versioning.outputs.v_name }}.tar.gz
-            release_out/gothwad-browser-windows-${{ steps.versioning.outputs.v_name }}.zip
-            release_out/gothwad-browser-macos-${{ steps.versioning.outputs.v_name }}.zip
+            release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-Release.apk
+            release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-Debug.apk
+            release_out/BansifyInternet-v${{ steps.versioning.outputs.v_name }}-PlayStore.aab
+            release_out/bansify-internet_${{ steps.versioning.outputs.v_name }}_all.deb
+            release_out/bansify-internet-linux-v${{ steps.versioning.outputs.v_name }}.tar.gz
+            release_out/bansify-internet-windows-${{ steps.versioning.outputs.v_name }}.zip
+            release_out/bansify-internet-macos-${{ steps.versioning.outputs.v_name }}.zip
